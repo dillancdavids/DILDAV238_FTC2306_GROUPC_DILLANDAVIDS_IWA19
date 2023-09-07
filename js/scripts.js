@@ -1,4 +1,4 @@
-import { BOOKS_PER_PAGE, authors, genres, books, html } from "./data.js";
+import { BOOKS_PER_PAGE, authors, genres, books, html } from "./js/data.js";
 
 // check if book exist and of type array 
 if (!books && !Array.isArray(books)) throw new Error('Source required') 
