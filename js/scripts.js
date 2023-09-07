@@ -1,23 +1,29 @@
-import { BOOKS_PER_PAGE, authors, genres, books, html } from "./js/data.js";
+import {
+    BOOKS_PER_PAGE,
+    authors,
+    genres,
+    books,
+    html
+  } from "./js/data.js";
 
 // check if book exist and of type array 
-if (!books && !Array.isArray(books)) throw new Error('Source required') 
-
-let isOpen = false
-let matches = books
-let page = 1;
+if (!books || !Array.isArray(books)) {
+    console.error('Invalid data source: books should be an array');
+    throw new Error('Invalid data source: books should be an array');
+  }
+  
+  let isOpen = false;
+  let matches = books;
+  let page = 1;
 
 // Event Handlers
 const settingsHandler = (event) => {
-    isOpen = !isOpen
-    if(isOpen) {
-        html.backdrop.style.display = 'block'
-        html.theme.overlay.style.display = 'block'
-    } else {
-        html.backdrop.style.display = 'none'
-        html.theme.overlay.style.display = ''
-    }
-}
+    isOpen = !isOpen;
+    const displayValue = isOpen ? 'block' : 'none';
+    html.backdrop.style.display = displayValue;
+    html.theme.overlay.style.display = displayValue;
+  };
+
 const settingsFormHandler = (event) => {
     event.preventDefault()
     if (html.theme.settings_theme.value == 'day') {
@@ -85,86 +91,30 @@ const searchHandler = (event) => {
     }
 }
 const searchSubmitHandler = (event) => {
-    event.preventDefault()
-    const formData = new FormData(event.target)
-    const filters = Object.fromEntries(formData)
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const filters = Object.fromEntries(formData);
 
-    const tempAuthorId = Object.keys(authors).find(key => authors[key] === filters.author)
-    const tempGenreId = Object.keys(genres).find(key => genres[key] === filters.genre)
+  const filterByTitle = (book) => book.title.toLowerCase().includes(filters.title.toLowerCase());
+  const filterByGenre = (book) => filters.genre === 'any' || book.genres.includes(filters.genre);
+  const filterByAuthor = (book) => filters.author === 'any' || book.author === filters.author;
 
-    if (filters.title == '' && filters.genre == 'any' && filters.author == 'any') { matches = matches }
-    if (filters.title != '' && filters.genre == 'any' && filters.author == 'any') {
-        matches = matches.filter( book => book.title.toLowerCase().includes(filters.title.toLowerCase()))
-        html.list.data_items.innerHTML = ''
-        html.list.data_items.appendChild(createPreviewsFragment(matches, BOOKS_PER_PAGE, 1))
-        html.list.data_message.classList.remove('list__message_show')
-        html.list.data_button.disabled = false
-    }
-    if (filters.title == '' && filters.genre != 'any' && filters.author == 'any') {
-        matches = matches.filter( book => book.genres.includes(tempGenreId) )
-        html.list.data_items.innerHTML = ''
-        html.list.data_items.appendChild(createPreviewsFragment(matches, BOOKS_PER_PAGE, 1))
-        html.list.data_message.classList.remove('list__message_show')
-        html.list.data_button.disabled = false
-    }
-    if (filters.title == '' && filters.genre == 'any' && filters.author != 'any') {
-        matches = matches.filter( book => book.author == tempAuthorId )
-        html.list.data_items.innerHTML = ''
-        html.list.data_items.appendChild(createPreviewsFragment(matches, BOOKS_PER_PAGE, 1))
-        html.list.data_message.classList.remove('list__message_show')
-        html.list.data_button.disabled = false
-    }
-    if (filters.title != '' && filters.genre != 'any' && filters.author == 'any') {
-        matches = matches.concat(
-            matches.filter( book => book.title.toLowerCase() == filters.title.toLowerCase() ),
-            matches.filter( book => book.genres.includes(tempGenreId) )
-        )
-        html.list.data_items.innerHTML = ''
-        html.list.data_items.appendChild(createPreviewsFragment(matches, BOOKS_PER_PAGE, 1))
-        html.list.data_message.classList.remove('list__message_show')
-        html.list.data_button.disabled = false
-    }
-    if (filters.title == '' && filters.genre != 'any' && filters.author != 'any') {
-        matches = matches.concat(
-            matches.filter( book => book.author == tempAuthorId ),
-            matches.filter( book => book.genres.includes(tempGenreId) )
-        )
-        html.list.data_items.innerHTML = ''
-        html.list.data_items.appendChild(createPreviewsFragment(matches, BOOKS_PER_PAGE, 1))
-        html.list.data_message.classList.remove('list__message_show')
-        html.list.data_button.disabled = false
-    }
-    if (filters.title != '' && filters.genre == 'any' && filters.author != 'any') {
-        matches = matches.concat(
-            matches.filter( book => book.author == tempAuthorId ),
-            matches.filter( book => book.title.toLowerCase() == filters.title.toLowerCase() )
-        )
-        html.list.data_items.innerHTML = ''
-        html.list.data_items.appendChild(createPreviewsFragment(matches, BOOKS_PER_PAGE, 1))
-        html.list.data_message.classList.remove('list__message_show')
-        html.list.data_button.disabled = false
-    }
-    if (filters.title != '' && filters.genre != 'any' && filters.author != 'any') {
-        matches = matches.concat(
-            matches.filter( book => book.title.toLowerCase() == filters.title.toLowerCase() ),
-            matches.filter( book => book.genres.includes(tempGenreId) ),
-            matches.filter( book => book.author == tempAuthorId )
-        )
-        html.list.data_items.innerHTML = ''
-        html.list.data_items.appendChild(createPreviewsFragment(matches, BOOKS_PER_PAGE, 1))
-        html.list.data_message.remove('list__message_show')
-        html.list.data_button.disabled = false
-    }
+  matches = books.filter((book) =>
+    filterByTitle(book) && filterByGenre(book) && filterByAuthor(book)
+  );
 
-    if (matches.length == 0) {
-        html.list.data_items.innerHTML = ''
-        html.list.data_message.classList.add('list__message_show')
-        html.list.data_button.disabled = true
-    }
+  if (matches.length === 0) {
+    html.list.data_message.classList.add('list__message_show');
+    html.list.data_button.disabled = true;
+  } else {
+    page = 1;
+    listShowHandler();
+  }
 
-    html.backdrop.style.display = 'none'
-    html.search.overlay.style.display = ''
-}
+  html.backdrop.style.display = 'none';
+  html.search.overlay.style.display = '';
+};
+
 
 /**
  * Takes a book object and converts it to an HTML element and 
@@ -216,6 +166,7 @@ const createPreviewsFragment = (booksArray, booksPerPage, Page) => {
 }
 html.list.data_items.appendChild(createPreviewsFragment(matches, BOOKS_PER_PAGE, page))
 
+
 /**
  * populates a drop down list
  * 
@@ -257,12 +208,14 @@ html.search.search.addEventListener('click', searchHandler)
 html.search.cancel.addEventListener('click', searchHandler)
 html.search.form.addEventListener('submit', searchSubmitHandler)
 
-html.list.data_button.addEventListener('click',listShowHandler)
-html.list.data_items.addEventListener('click', listItemsHandler)
+html.list.data_button.addEventListener('click', listShowHandler);
+html.list.data_items.addEventListener('click', listItemsHandler);
 html.summary.close.addEventListener('click', () => {
     html.summary.active.open = false
     html.backdrop.style.display = 'none'
 } )
+
+
 
 html.theme.settings_form.addEventListener('submit', settingsFormHandler)
 html.theme.settings_header.addEventListener('click', settingsHandler)
