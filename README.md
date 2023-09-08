@@ -1,21 +1,17 @@
-# Final Capstone Project IWA19 : Book Connect Web App
 
-This is a a web application for a small startup called Book Contect
+**Title: Book Connect Web App - IWA19 Final Capstone Project**
 
+**Introduction:**
+The Book Connect web application has been developed for a budding startup known as "Book Connect." This web app offers a curated list of books to help users discover new reading material. Users can explore book summaries, along with publication dates, making it easier to find second-hand copies. One noteworthy feature is the convenient search functionality that allows users to find books using partial titles or author names. Additionally, users can filter the book list by title, author, or genre. For added user comfort, the app also provides a day and night mode toggle.
 
-## Description
+**User Story Fulfillment:**
+-  Users can view a list of book previews, including titles and authors, facilitating the discovery of new reading options.
+-  All book previews include cover images to aid users in identifying books by their covers, even if they forget the title.
+-  Users have the option to access a summary of each book, assisting them in deciding whether they want to read it.
+-  The publication date of each book is displayed to help users gauge the availability of second-hand copies.
+-  Users can easily find books using specific text phrases, eliminating the need to remember complete titles.
+-  Books can be filtered by author, allowing users to discover works by their favorite authors.
+-  The app enables users to filter books by genre, catering to their specific reading preferences.
+-  Users can switch between dark and light modes for comfortable usage, even during nighttime.
 
-The Book Connect web application has a list of books available so that users can discover new books to read. A user can click on a book to view the summary of the book and also shows the date each book was published so that the user can determine how easy it is to get a second-hand copy of the book. The user does not have to remember the whole title of a book or full name of the author, they can just search using just part of the book title or author name to get desired results. The user can also filter the book list according to title, author and/or genre of the book, also for user comfort they toggle between day and night mode.
-
-## Satisfies the following User Stories
-- [x] As a user, I want to view a list of book previews, by title and author, so that I can discover new books to read.
-- [x] As a user, I want an image associated with all book previews so that I can recognize a book by the cover even if I forgot the name.
-- [x] As a user, I want to have the option of reading a summary of the book so that I can decide whether I want to read it.
-- [x] As a user, I want to have the option of seeing the date that a book was published so that I can determine how easy it is to obtain second-hand.
-- [x] As a user, I want to find books based on specific text phrases so that I don’t need to remember the entire title of a book.
-- [x] As a user, I want to filter books by author so that I can find books to read by authors that I enjoy.
-- [x] As a user, I want to filter books by genre so that I can find books to read in genres that I enjoy.
-- [x] As a user, I want to toggle between dark and light modes so that I can use the app comfortably at night.
-
-### Link to Presentation Slides:
-
+**Presentation Slides Link:** [Insert Link Here]
