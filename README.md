@@ -14,4 +14,4 @@ The Book Connect web application has been developed for a budding startup known 
 -  The app enables users to filter books by genre, catering to their specific reading preferences.
 -  Users can switch between dark and light modes for comfortable usage, even during nighttime.
 
-**Presentation Slides Link:** [Insert Link Here]
+**Presentation Slides Link:** [https://docs.google.com/presentation/d/1RirEHS-Ktuplve7zqQ1pnmZV8MuQjb7K/edit?usp=sharing&ouid=115791137351585400884&rtpof=true&sd=true]
